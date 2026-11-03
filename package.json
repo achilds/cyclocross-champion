@@ -1,0 +1,1 @@
+{ "name": "cyclocross-champion", "private": true, "type": "module", "scripts": { "test": "node test/sim.js", "start": "python3 -m http.server 8000" } }

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cyclocross Champion</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+  <canvas id="view"></canvas>
+
+  <!-- Title -->
+  <section id="screen-title" class="screen">
+    <div class="title-card">
+      <h1>Cyclocross<br /><span>Champion</span></h1>
+      <p class="tag">Mud. Sand. Stairs. Glory.</p>
+      <button class="big" data-go="garage">Start</button>
+      <button data-go="help">How to play</button>
+    </div>
+  </section>
+
+  <!-- How to play -->
+  <section id="screen-help" class="screen hidden">
+    <div class="panel wide">
+      <h2>How to play</h2>
+      <div class="help-grid">
+        <div><kbd>W</kbd> / <kbd>↑</kbd></div><div>Pedal (or run when on foot)</div>
+        <div><kbd>Shift</kbd></div><div>Sprint: more speed, burns more energy</div>
+        <div><kbd>←</kbd><kbd>→</kbd> / <kbd>A</kbd><kbd>D</kbd></div><div>Lean: leaning is how you turn. Match the green zone on the lean gauge in corners.</div>
+        <div><kbd>↓</kbd> / <kbd>S</kbd></div><div>Brake (front and rear together)</div>
+        <div><kbd>Space</kbd></div><div>Jump off / back on the bike. Run over barriers and stairs.</div>
+        <div><kbd>B</kbd></div><div>Balance: mash it fast in sand, mud, gravel and roots</div>
+        <div><kbd>E</kbd></div><div>Eat a gel (energy)</div>
+        <div><kbd>Q</kbd></div><div>Drink from your bottle (water)</div>
+        <div><kbd>C</kbd></div><div>Cheer on a nearby rider: you both get a little energy</div>
+        <div><kbd>Esc</kbd></div><div>Pause</div>
+      </div>
+      <ul class="tips">
+        <li>Run out of <b>energy</b> or <b>water</b> and you collapse and are out of the race. The bar flashes when it's getting low. Food and bottles are limited, so pick your moment.</li>
+        <li>Every corner needs the right amount of lean. Too upright <b>or</b> leaning too far and you'll slide out. Faster = more lean, so brake <b>before</b> sharp corners.</li>
+        <li><b>Off-camber</b> slopes tilt the track sideways: they drain your balance and have less grip. Slow down and mash B.</li>
+        <li>Riding into another rider makes you crash and lose energy. If someone crashes in front of you, steer around them!</li>
+        <li>Riding into barriers or stairs = crash. Watch for the warnings at the top of the screen.</li>
+        <li>Steep hills can be faster to run up. Stall on a climb and you'll topple over.</li>
+        <li>Finish in the top 3 to unlock the next course.</li>
+      </ul>
+      <button data-go="title">Back</button>
+    </div>
+  </section>
+
+  <!-- Garage / customise -->
+  <section id="screen-garage" class="screen hidden">
+    <div class="panel side">
+      <h2>Your racer</h2>
+      <div id="garage-options"></div>
+      <div id="stats"></div>
+      <div class="row">
+        <button data-go="title">Back</button>
+        <button class="big" data-go="levels">Choose course ▶</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Level select -->
+  <section id="screen-levels" class="screen hidden">
+    <div class="panel wide">
+      <h2>Choose your race</h2>
+      <div id="level-list"></div>
+      <button data-go="garage">◀ Back to garage</button>
+    </div>
+  </section>
+
+  <!-- HUD -->
+  <section id="hud" class="hidden">
+    <div id="hud-tl">
+      <div id="hud-pos">1<sup>st</sup></div>
+      <div id="hud-lap">Lap 1/2</div>
+      <div id="hud-time">0:00.0</div>
+    </div>
+    <canvas id="minimap" width="200" height="200"></canvas>
+    <div id="hud-alert"></div>
+    <div id="hud-center"></div>
+    <div id="hud-feed"></div>
+    <div id="hud-bl">
+      <div class="bar" id="bar-energy"><label>Energy</label><i></i><span class="warn">EAT! (E)</span></div>
+      <div class="bar" id="bar-water"><label>Water</label><i></i><span class="warn">DRINK! (Q)</span></div>
+      <div class="bar" id="bar-balance"><label>Balance</label><i></i><span class="warn">MASH B!</span></div>
+    </div>
+    <canvas id="lean-gauge" width="220" height="110"></canvas>
+    <div id="hud-bc">
+      <div id="hud-speed">0<small> km/h</small></div>
+      <div id="hud-mode">RIDING</div>
+      <div id="hud-brakes"><span id="brk">BRAKE ↓ / S</span></div>
+      <div id="hud-danger"></div>
+    </div>
+    <div id="hud-br">
+      <div><kbd>E</kbd> Gels <b id="hud-gels">3</b></div>
+      <div><kbd>Q</kbd> Bottles <b id="hud-bottles">2</b></div>
+      <div><kbd>C</kbd> Cheer <b id="hud-cheer">ready</b></div>
+    </div>
+  </section>
+
+  <!-- Pause -->
+  <section id="screen-pause" class="screen hidden">
+    <div class="panel">
+      <h2>Paused</h2>
+      <button class="big" id="btn-resume">Resume</button>
+      <button id="btn-restart">Restart race</button>
+      <button id="btn-quit">Quit to menu</button>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section id="screen-results" class="screen hidden">
+    <div class="panel wide">
+      <h2 id="res-title">Results</h2>
+      <p id="res-sub"></p>
+      <table id="res-table"></table>
+      <div class="row">
+        <button id="btn-retry">Race again</button>
+        <button id="btn-garage">Garage</button>
+        <button class="big" id="btn-next">Next course ▶</button>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
