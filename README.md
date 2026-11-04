@@ -25,10 +25,21 @@ works offline.
 | B | Balance: mash it in sand, mud, gravel, roots |
 | E / Q | Eat a gel / drink |
 | C | Cheer on a nearby rider (you both gain a little energy) |
+| M | Music on / off |
 | Esc | Pause |
 
 Riding into another rider, or into a rider who has crashed in front of you, makes you crash
 and lose energy. Finish in the top 3 to unlock the next course. Progress and your racer are saved in localStorage.
+
+## Credits and licenses
+
+The code is under the MIT License (see `LICENSE`). The music in `assets/music/` is not covered by
+the MIT License:
+
+- "Pit Fighter" (menus) and "Race to Mars" (races) by [DOS-88](https://dos88.bandcamp.com/), from the
+  album *Retrograde Motion*. "Race to Mars": https://dos88.bandcamp.com/track/race-to-mars-2.
+  Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The tracks are unmodified.
+- Three.js (`vendor/`) is under the MIT License.
 
 ## Code layout
 

@@ -63,6 +63,27 @@ function beep(freq = 440, dur = 0.12, type = 'square', vol = 0.06) {
   } catch { /* audio unavailable */ }
 }
 
+const music = {
+  menu: Object.assign(new Audio('assets/music/pit-fighter.mp3'), { loop: true, volume: 0.4 }),
+  race: Object.assign(new Audio('assets/music/race-to-mars.mp3'), { loop: true, volume: 0.4, preload: 'none' }),
+};
+let musicTrack = 'menu';
+function playMusic(name, restart = false) {
+  musicTrack = name;
+  for (const [k, a] of Object.entries(music)) {
+    if (k === name && restart) a.currentTime = 0;
+    if (k === name && !save.muted) a.play().catch(() => { /* blocked until the first click or key */ });
+    else a.pause();
+  }
+}
+function toggleMusic() {
+  save.muted = !save.muted;
+  persist();
+  playMusic(musicTrack);
+}
+// Browsers block audio until the player interacts with the page.
+for (const ev of ['pointerdown', 'keydown']) window.addEventListener(ev, () => playMusic(musicTrack), { once: true });
+
 // ---------------------------------------------------------------- Showroom (menus)
 const showroom = new THREE.Scene();
 showroom.background = new THREE.Color(0x8fcfff);
@@ -217,6 +238,7 @@ window.addEventListener('keydown', (e) => {
   if (!e.repeat) {
     edges.add(e.code);
     if (e.code === 'KeyB') balanceTaps++;
+    if (e.code === 'KeyM') toggleMusic();
     if ((e.code === 'Escape' || e.code === 'KeyP') && mode === 'race' && !race.player.done) togglePause();
   }
   keys.add(e.code);
@@ -252,6 +274,7 @@ let minimapBg = null, mmXform = null;
 function togglePause() {
   paused = !paused;
   $('screen-pause').classList.toggle('hidden', !paused);
+  playMusic(paused ? null : 'race');
 }
 $('btn-resume').onclick = () => togglePause();
 $('btn-restart').onclick = () => { paused = false; startRace(race.levelIndex); };
@@ -270,6 +293,7 @@ function toMenu(screen = 'title') {
   mode = 'menu';
   $('hud').classList.add('hidden');
   show(screen);
+  playMusic('menu');
 }
 
 function startRace(levelIndex) {
@@ -277,6 +301,7 @@ function startRace(levelIndex) {
   show(null);
   mode = 'race';
   paused = false; acc = 0; eventIdx = 0; endTimer = -1; lastBeepSec = 99;
+  playMusic('race', true);
   feed.length = 0;
   $('hud-feed').innerHTML = '';
   race = new Race(levelIndex, { ...save.setup });
@@ -584,6 +609,7 @@ function showResults() {
   $('btn-next').style.display = li < LEVELS.length - 1 ? '' : 'none';
   $('hud').classList.add('hidden');
   show('results');
+  playMusic('menu');
 }
 
 // ---------------------------------------------------------------- Main loop
@@ -644,4 +670,4 @@ if (params.has('race')) {
 requestAnimationFrame(frame);
 
 // Exposed for debugging in the console.
-window.__ccc = { get race() { return race; }, startRace, save };
+window.__ccc = { get race() { return race; }, startRace, save, music };

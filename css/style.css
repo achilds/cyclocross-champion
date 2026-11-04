@@ -10,6 +10,8 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #000; font-f
 .title-card { text-align: center; background: rgba(0, 0, 0, 0.35); padding: 40px 60px; border-radius: 24px; backdrop-filter: blur(4px); }
 h1 { font-size: clamp(42px, 7vw, 92px); margin: 0 0 8px; line-height: 0.95; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 4px 0 #b3202c, 0 8px 20px rgba(0,0,0,.5); }
 h1 span { color: #ffd60a; }
+.credit { font-size: 12px; opacity: 0.75; margin: 22px 0 0; max-width: 420px; margin-inline: auto; }
+.credit a { color: #ffd60a; }
 .tag { font-size: 20px; opacity: 0.9; margin: 8px 0 28px; }
 h2 { margin: 0 0 14px; }
 
