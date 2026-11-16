@@ -6,6 +6,11 @@ hills, hairpin serpentines and off-camber slopes.
 
 ## Play
 
+Latest Version online:
+https://achilds.github.io/cyclocross-champion/
+
+Or pull this repo and play locally:
+
 ```bash
 python3 -m http.server 8000      # or: npm start
 ```
